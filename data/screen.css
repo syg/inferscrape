@@ -15,10 +15,6 @@ li.selected {
     color: #dc322f;
 }
 
-li.selected:after {
-    color: #586e75;
-}
-
 #typeset li:not(.selected) {
     color: #073642;
     outline: none;
@@ -36,6 +32,10 @@ li.selected:after {
 #typeset li:not(.selected):active {
     outline: none;
     color: #dc322f;
+}
+
+#typeset li:after {
+    color: #073642;
 }
 
 #content {
@@ -86,7 +86,8 @@ ul.set li {
 }
 
 ul.set li:after {
-    content: ',';
+    color: #586e75;
+    content: ', ';
 }
 
 ul.set li:last-child:after {
@@ -123,7 +124,6 @@ div.bubble {
     background-color: #9bbef0;
     border: 3px #9bbef0 solid;
     -moz-border-radius: 3px;
-    opacity: 0.9;
 }
 
 div.superset {
