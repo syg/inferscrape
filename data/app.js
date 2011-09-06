@@ -121,7 +121,7 @@ function initializeWithSpew(spew) {
                  */
                 if ($("#" + id).length !== 0)
                     displayId = id;
-                el.append("<div class=\"subset\" title=\"" + path[i].kind + "\">&sube;</div>");
+                el.append("<div class=\"subset\" title=\"" + path[i].kind + "\">&supe;</div>");
                 el.append("<div class=\"superset\" data-display-id=\"" + displayId + "\">" +
                           "<h3>" + id + "<h3>" + listTypes(id, type) +
                           "</div>");
