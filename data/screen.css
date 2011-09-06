@@ -1,0 +1,168 @@
+html {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    color: #586e75;
+    background-color: #fdf6e3;
+    overflow: hidden;
+}
+
+li.selected {
+    color: #dc322f;
+}
+
+li.selected:after {
+    color: #586e75;
+}
+
+#typeset li:not(.selected) {
+    color: #073642;
+    outline: none;
+    text-decoration: none;
+    -moz-transition: color 0.3s;
+    transition: color 0.3s;
+    cursor: pointer;
+}
+
+#typeset li:not(.selected):hover {
+    outline: none;
+    color: #dc322f;
+}
+
+#typeset li:not(.selected):active {
+    outline: none;
+    color: #dc322f;
+}
+
+#content {
+    height: 100%;
+}
+
+#spew {
+    font: 1.1em "Helvetica", sans-serif;
+    background-color: #eee8d5;
+    text-align: center;
+    height: 100%;
+    position: absolute;
+    width: 350px;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    overflow: auto;
+}
+
+#typeset {
+    font-size: 1.3em;
+    font-weight: bold;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    margin-bottom: 10px;
+}
+
+#typeset:not(.highlight) {
+    cursor: pointer;
+}
+
+ul.set {
+    margin: 0;
+    padding: 0;
+    display: inline-box;
+}
+
+ul.set:before {
+    content: '{ ';
+}
+
+ul.set:after {
+    content: ' }';
+}
+
+ul.set li {
+    display: inline;
+}
+
+ul.set li:after {
+    content: ',';
+}
+
+ul.set li:last-child:after {
+    content: '';
+}
+
+#typeset > h3 {
+    font-size: 1em;
+    font-weight: normal;
+    margin: 0;
+    margin-bottom: 5px;
+}
+
+#code {
+    margin: 0;
+    overflow: auto;
+    position: absolute;
+    top: 0px;
+    left: 350px;
+    right: 0px;
+    bottom: 0px;
+}
+
+#code > pre {
+    margin: 0;
+    padding: 25px;
+    font: 1.25em "Consolas", "Monaco", "Inconsolata", monospace;
+}
+
+div.bubble {
+    z-index: 500;
+    color: #073642;
+    position: absolute;
+    background-color: #9bbef0;
+    border: 3px #9bbef0 solid;
+    -moz-border-radius: 3px;
+    opacity: 0.9;
+}
+
+div.superset {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 5px;
+}
+
+div.superset:not(.highlight) {
+    cursor: pointer;
+}
+
+div.superset h3 {
+    font-size: 1em;
+    font-weight: normal;
+    margin: 0;
+}
+
+.highlight {
+    color: #073642;
+    background-color: #9bbef0;
+}
+
+div.subset {
+    font-size: 1.25em;
+    margin: 0;
+    padding: 0;
+}
+
+#origin {
+    font-style: italic;
+}
+
+span.clickableTypeset {
+    display: inline-box;
+    border-bottom: 1px #268bd2 dotted;
+    cursor: pointer;
+}
+
+span.clickableTypeset span.clickableTypeset {
+    border-bottom: none;
+}

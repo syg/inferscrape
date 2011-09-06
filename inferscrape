@@ -1,0 +1,54 @@
+#!/usr/bin/env python
+
+import os, sys, shutil
+from optparse import OptionParser
+from string import Template
+
+DATA_PATH = os.path.join(os.path.dirname(__file__), "data")
+
+def scrape(spewfile, verbose):
+    with open(spewfile, "r") as f:
+        spew = []
+        code = []
+        in_code = False
+
+        for line in f:
+            if line.startswith("[infer]"):
+                spew.append(line.strip())
+            elif line.strip() == "<<END_DECOMPILE":
+                in_code = True
+            elif line.strip() == "END_DECOMPILE":
+                in_code = False
+            elif in_code:
+                code.append(line.rstrip('\n'))
+
+        if not code:
+            raise Exception("bad spew: couldn't find decompiled code")
+        if in_code:
+            raise Exception("bad spew: premature end of decompiled code")
+
+        with open(os.path.join(DATA_PATH, "code.html")) as tfile:
+            template = Template(tfile.read())
+            with open(spewfile + ".html", "w") as outf:
+                subst = { 'title': spewfile,
+                          'code': '\n'.join(code),
+                          'spew': '\\n'.join(spew),
+                          'data_path': DATA_PATH }
+                outf.write(template.safe_substitute(subst))
+
+def main():
+    op = OptionParser(usage="%prog [-v] spewfile ...")
+    op.add_option("-v", "--verbose", dest="verbose", action="store_true",
+                  help="display verbose information during scraping")
+
+    (options, args) = op.parse_args()
+
+    if not args:
+        op.print_help()
+        exit(1)
+
+    for spewfile in args:
+        scrape(spewfile, options.verbose)
+
+if __name__ == "__main__":
+    main()
