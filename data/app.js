@@ -9,7 +9,7 @@ function initializeWithSpew(spew) {
 
     function removeBubble() {
         var bubble = $("#bubble");
-        var el = $("#" + bubble.attr("under"));
+        var el = $("#" + bubble.attr("data-under"));
 
         bubble.remove();
 
@@ -31,7 +31,7 @@ function initializeWithSpew(spew) {
 
 	/* Make a new bubble. */
         var id = el.attr("id");
-	el.after("<div id=\"bubble\" under=\"" + id + "\" class=\"bubble\"></div>");
+	el.after("<div id=\"bubble\" data-under=\"" + id + "\" class=\"bubble\"></div>");
 	/* Position it. */
 	var bubble = $("#bubble");
 	var offset = el.offset();
@@ -50,6 +50,14 @@ function initializeWithSpew(spew) {
         var kids = el.find("span");
         kids.removeClass("clickableTypeset");
         kids.unbind("click");
+    }
+
+    function toggleClickable(el, klass, f) {
+        var prev = $("." + klass);
+        prev.click(f);
+        prev.removeClass(klass);
+        el.addClass(klass);
+        el.unbind("click");
     }
 
     function listTypes(id, selected) {
@@ -85,19 +93,11 @@ function initializeWithSpew(spew) {
         e.stopPropagation();
     }
 
-    function toggleClickable(el, klass, f) {
-        var prev = $("." + klass);
-        prev.click(f);
-        prev.removeClass(klass);
-        el.addClass(klass);
-        el.unbind("click");
-    }
-
     function clickTypeset(e) {
         var el = $(this);
         $(".notFound").removeClass(".notFound");
         toggleClickable(el, "highlight", clickTypeset);
-        showBubble($("#" + el.children("h3").html()));
+        showBubble($("#" + el.attr("data-display-id")));
     }
 
     function clickType(e) {
@@ -107,14 +107,22 @@ function initializeWithSpew(spew) {
         var type = $(this).html().replace("&lt;", "<").replace("&gt;", ">");
         var pobj = scraper.pathOf($("#typeset > h3").html(), type);
         var path = pobj.path;
-        var id;
+        var id, displayId;
 
         el.html("");
         if (path) {
+            /* We are sure #typeset is in the source text. */
+            displayId = "typeset";
             for (var i = 0; i < path.length; i++) {
                 id = path[i].source;
+                /*
+                 * If the typeset isn't shown in the decompiled source,
+                 * use the last typeset that we know is in the source.
+                 */
+                if ($("#" + id).length !== 0)
+                    displayId = id;
                 el.append("<div class=\"subset\" title=\"" + path[i].kind + "\">&sube;</div>");
-                el.append("<div class=\"superset\">" +
+                el.append("<div class=\"superset\" data-display-id=\"" + displayId + "\">" +
                           "<h3>" + id + "<h3>" + listTypes(id, type) +
                           "</div>");
             }
