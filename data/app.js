@@ -16,9 +16,10 @@ function initializeWithSpew(spew) {
         el.removeAttr("style");
         el.addClass("clickableTypeset");
         el.click(clickSourceTypeset);
-        var kids = el.find("span");
-        kids.addClass("clickableTypeset");
-        kids.click(clickSourceTypeset);
+    }
+
+    function doNothing(e) {
+        e.stopPropagation();
     }
 
     /* |el| is the element to show the bubble around. */
@@ -47,9 +48,7 @@ function initializeWithSpew(spew) {
 	el.css({ position: "relative", "z-index": 1000 });
         el.removeClass("clickableTypeset");
         el.unbind("click");
-        var kids = el.find("span");
-        kids.removeClass("clickableTypeset");
-        kids.unbind("click");
+        el.click(doNothing);
     }
 
     function toggleClickable(el, klass, f) {
@@ -112,7 +111,7 @@ function initializeWithSpew(spew) {
         el.html("");
         if (path) {
             /* We are sure #typeset is in the source text. */
-            displayId = "typeset";
+            displayId = $("#typeset > h3").html();
             for (var i = 0; i < path.length; i++) {
                 id = path[i].source;
                 /*

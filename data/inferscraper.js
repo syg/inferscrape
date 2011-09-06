@@ -169,7 +169,7 @@ var InferScraper = (function () {
                 break;
 
             case RESOLVE:
-                if (addQueue.length === 1) {
+                if (addQueue.length) {
                     add = addQueue.pop();
                     var constraint = this.constraints[op.constraint];
                     if (!constraint)
